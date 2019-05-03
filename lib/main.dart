@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: <Widget>[
           HomeScreenTopPart(),
-          homeScreenButtonPart,
+          homeScreenBottomPart,
         ],
       ),
     );
@@ -114,7 +114,10 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                 ),
                 Text(
                   "Where would\nyou want to go?",
-                  style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
@@ -230,7 +233,7 @@ class _ChoiceChipState extends State<ChoiceChip> {
 
 var viewAllStyle = TextStyle(fontSize: 14.0, color: appTheme.primaryColor);
 
-var homeScreenButtonPart = Column(
+var homeScreenBottomPart = Column(
   children: <Widget>[
     Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
@@ -246,38 +249,86 @@ var homeScreenButtonPart = Column(
     ),
     Container(
       height: 210.0,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          Container(height: 210, width: 100.0,),
-          Container(height: 210, width: 100.0,),
-          Container(height: 210, width: 100.0,),
-          Container(height: 210, width: 100.0,),
-        ],
-      ),
+      child: ListView(scrollDirection: Axis.horizontal, children: cityCards),
     ),
   ],
 );
 
 List<CityCard> cityCards = [
-  //CityCard()
+  CityCard("assets/images/lasvegas.jpg", "Las Vegas", "Feb 2019", "45", "4299",
+      "2250"),
+  CityCard(
+      "assets/images/athens.jpg", "Athens", "Apr 2019", "50", "9999", "4159"),
+  CityCard(
+      "assets/images/sydney.jpeg", "Sydney", "Dec 2018", "40", "5999", "2399"),
 ];
 
 class CityCard extends StatelessWidget {
-
   String imagePath, cityName, discount, oldPrice, newPrice, date;
 
-  CityCard(this.imagePath, this.cityName, this.discount, this.oldPrice,
-      this.newPrice, this.date);
+  CityCard(this.imagePath, this.cityName, this.date, this.discount,
+      this.oldPrice, this.newPrice);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          child: Image.asset(""),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.0),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: 210.0,
+              width: 160.0,
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              left: 10.0,
+              bottom: 10.0,
+              right: 10.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        cityName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18.0),
+                      ),
+                      Text(
+                        date,
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                            fontSize: 14.0),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.white,
+                      ),
+                      child: Text(
+                        "$discount%",
+                        style: TextStyle(fontSize: 14.0, color: Colors.black),
+                      )),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
